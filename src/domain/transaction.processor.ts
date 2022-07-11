@@ -11,15 +11,7 @@ export class TransactionProcessor {
     let monthlyTotals: MonthlyTotals = {};
 
     for (const row of transactions.toArray()) {
-      if (!row[1].match(/^([1-9]|1[012])\//)) {
-        throw new Error(`Row has invalid month. Full row content: ${row}`);
-      }
-      const month = row[1].split("/")[0]; // assume date is of format MM/DD
-
-      if (!row[2].match(/^(-|\+)\d+(\.\d+)?$/)) {
-        throw new Error(`Row has invalid amount. Full row content: ${row}`);
-      }
-      const amount = parseFloat(row[2]);
+      const { month, amount } = this.parseRow(row);
 
       // Create month if not yet created
       if (!monthlyTotals[month]) {
@@ -35,5 +27,22 @@ export class TransactionProcessor {
       totals,
       monthlyTotals,
     };
+  }
+
+  parseRow = (row: string[]): { month: number, amount: number } => {
+    if (!row[1].match(/^([1-9]|1[012])\//)) {
+      throw new Error(`Row has invalid month. Full row content: ${row}`);
+    }
+    const month = parseInt(row[1].split("/")[0]); // assume date is of format MM/DD
+
+    if (!row[2].match(/^(-|\+)\d+(\.\d+)?$/)) {
+      throw new Error(`Row has invalid amount. Full row content: ${row}`);
+    }
+    const amount = parseFloat(row[2]);
+
+    return {
+      month,
+      amount,
+    }
   }
 }

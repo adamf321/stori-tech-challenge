@@ -4,7 +4,9 @@
   "description": "App to process account transactions",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "invoke": "serverless invoke local --function processTransactions",
+    "deploy": "serverless deploy"
   },
   "author": "Adam Fenton",
   "license": "ISC",

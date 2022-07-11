@@ -23,7 +23,7 @@ custom:
 
 package:
   patterns:
-    - email.templates/*
+    - '!tests/**'
 
 plugins:
   - serverless-plugin-typescript
