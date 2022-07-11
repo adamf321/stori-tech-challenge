@@ -26,6 +26,10 @@ module.exports.processTransactions = async (event: Event): Promise<FunctionRespo
   const transactionProcessor = new TransactionProcessor();
   const emailService = new EmailService();
 
+  if (!event.filename || !event.emailTo) {
+    throw new Error("The event must include the filename and emailTo");
+  }
+
   console.log(`Calculating totals for file ${event.filename}...`);
 
   // pick the filestore service depending on whether we're running locally or on AWS
@@ -37,7 +41,7 @@ module.exports.processTransactions = async (event: Event): Promise<FunctionRespo
   await emailService.sendEmail(event.emailTo, totals, monthlyTotals);
 
   console.log(`Email was sent to ${event.emailTo}`);
-  
+
   return {
     statusCode: 200,
     body: {
