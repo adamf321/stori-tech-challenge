@@ -1,0 +1,34 @@
+service: aws-node-project
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  processTransactions:
+    handler: handler.processTransactions
+    # environment:
+      # TRANSACTIONS_BUCKET: ${construct:transactionsBucket.bucketName}
+
+constructs:
+  transactionsBucket:
+    type: storage
+
+custom:
+  s3:
+    host: localhost
+    directory: /tmp
+
+package:
+  patterns:
+    - email.templates/*
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-lift
+  - serverless-s3-local
+  - serverless-offline
+
+variablesResolutionMode: null
