@@ -4,7 +4,7 @@ import { MonthlyTotals, Totals } from "../domain/types/totals";
 import { toMonthName } from "./date.utils";
 
 type PostmarkTemplateModel = {
-  total_balance: number;
+  total_balance: string;
   number_of_transactions: number;
   average_debits: string;
   average_credits: string;
@@ -36,7 +36,7 @@ export class EmailService {
     }
 
     const templateModel: PostmarkTemplateModel = {
-      total_balance: 0,
+      total_balance: this.ccyFormatter.format(totals.balance),
       number_of_transactions: totals.transactionCount,
       average_debits: this.ccyFormatter.format(totals.averageDebits),
       average_credits: this.ccyFormatter.format(totals.averageCredits),

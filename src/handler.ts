@@ -8,6 +8,11 @@ import { DiskFilestoreService } from "./utils/filestore/disk.filestore.service";
 import { FilestoreService } from "./utils/filestore/filestore.service";
 import { S3FilestoreService } from "./utils/filestore/s3.filestore.service";
 
+type Event = {
+  filename: string;
+  emailTo: string;
+}
+
 type FunctionResponse = {
   statusCode: number;
   body: {
@@ -16,7 +21,7 @@ type FunctionResponse = {
   };
 };
 
-module.exports.processTransactions = async (event): Promise<FunctionResponse> => {
+module.exports.processTransactions = async (event: Event): Promise<FunctionResponse> => {
   const configService = new ConfigService();
   const transactionProcessor = new TransactionProcessor();
   const emailService = new EmailService();
@@ -29,8 +34,10 @@ module.exports.processTransactions = async (event): Promise<FunctionResponse> =>
 
   const { totals, monthlyTotals } = transactionProcessor.getTotals(data);
 
-  await emailService.sendEmail("adam@nolte.io", totals, monthlyTotals);
+  await emailService.sendEmail(event.emailTo, totals, monthlyTotals);
 
+  console.log(`Email was sent to ${event.emailTo}`);
+  
   return {
     statusCode: 200,
     body: {

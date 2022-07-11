@@ -8,7 +8,7 @@ provider:
 
 functions:
   processTransactions:
-    handler: handler.processTransactions
+    handler: src/handler.processTransactions
     # environment:
       # TRANSACTIONS_BUCKET: ${construct:transactionsBucket.bucketName}
 
