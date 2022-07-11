@@ -1,6 +1,7 @@
 import * as postmark from "postmark";
 
 import { MonthlyTotals, Totals } from "../domain/types/totals";
+import { ConfigService } from "./config.service";
 import { toMonthName } from "./date.utils";
 
 type PostmarkTemplateModel = {
@@ -17,13 +18,15 @@ type PostmarkTemplateModel = {
 };
 
 export class EmailService {
+  private configService = new ConfigService();
+
   private ccyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD"
   });
 
   sendEmail = async (to: string, totals: Totals, monthlyTotals: MonthlyTotals) => {
-    const client = new postmark.ServerClient("2f8548f8-7737-45c5-865a-10e45a729bc8");
+    const client = new postmark.ServerClient(this.configService.getPostmarkApiKey());
     let months: PostmarkTemplateModel["month"] = [];
 
     for (const [month, value] of Object.entries(monthlyTotals)) {
@@ -44,9 +47,9 @@ export class EmailService {
     };
 
     await client.sendEmailWithTemplate({
-      From: "adam@nolte.io",
+      From: this.configService.getFromEmail(),
       To: to,
-      TemplateAlias: "transaction-report",
+      TemplateAlias: this.configService.getEmailTemplateAlias(),
       TemplateModel: templateModel,
     });
   }
