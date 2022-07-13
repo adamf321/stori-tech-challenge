@@ -28,7 +28,6 @@ package:
 plugins:
   - serverless-plugin-typescript
   - serverless-lift
-  - serverless-s3-local
   - serverless-offline
 
 variablesResolutionMode: null
