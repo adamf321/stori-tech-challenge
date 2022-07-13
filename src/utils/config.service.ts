@@ -5,7 +5,7 @@ export class ConfigService {
 
   getAwsRegion = (): string => process.env.AWS_REGION || "us-east-1";
 
-  getTransactionsBucket = (): string => process.env.TRANSACTIONS_BUCKET || "us-east-1";
+  getTransactionsBucket = (): string => process.env.TRANSACTIONS_BUCKET || "";
 
   getFromEmail = (): string => "adam@nolte.io"; // Hard coding ths here, we could make it configurable if needed
 

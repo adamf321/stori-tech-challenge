@@ -2,6 +2,12 @@ service: aws-node-project
 
 frameworkVersion: '3'
 
+params:
+  default:
+    transactionsBucket: ${construct:transactionsBucket.bucketName}
+  dev:
+    transactionsBucket: ""
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -9,8 +15,8 @@ provider:
 functions:
   processTransactions:
     handler: src/handler.processTransactions
-    # environment:
-      # TRANSACTIONS_BUCKET: ${construct:transactionsBucket.bucketName}
+    environment:
+      TRANSACTIONS_BUCKET: ${param:transactionsBucket}
 
 constructs:
   transactionsBucket:
@@ -29,5 +35,3 @@ plugins:
   - serverless-plugin-typescript
   - serverless-lift
   - serverless-offline
-
-variablesResolutionMode: null

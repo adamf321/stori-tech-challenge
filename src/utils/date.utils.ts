@@ -1,4 +1,4 @@
-export function toMonthName(monthNumber: number): string {
+export const toMonthName = (monthNumber: number): string => {
   if (!Number.isInteger(monthNumber) || monthNumber < 1 || monthNumber > 12) {
     throw new Error(`${monthNumber} is an invalid month number`);
   }
