@@ -4,9 +4,9 @@ frameworkVersion: '3'
 
 params:
   default:
-    transactionsBucket: ${construct:transactionsBucket.bucketName}
-  dev:
     transactionsBucket: ""
+  prod:
+    transactionsBucket: ${construct:transactionsBucket.bucketName}
 
 provider:
   name: aws

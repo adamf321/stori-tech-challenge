@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "invoke": "serverless invoke local --function processTransactions",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy --stage prod"
   },
   "author": "Adam Fenton",
   "license": "ISC",
